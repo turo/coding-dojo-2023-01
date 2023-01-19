@@ -1,12 +1,12 @@
 package org.example;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit test for simple App.
@@ -33,5 +33,18 @@ public class ParserTest {
         );
         Map<String, Object> parsedResults = parser.parse(arg);
         assertTrue((boolean)parsedResults.get("l"));
+    }
+
+    @Test
+    public void booleanArgument_withStringValue_throwsException() {
+        String arg = "-l abc";
+        List<Flag> flags = new ArrayList<>();
+        flags.add(new Flag("l", Boolean.class));
+        Parser parser = new Parser(
+                new Schema(flags)
+        );
+
+        assertThrows(RuntimeException.class,() -> parser.parse(arg));
+
     }
 }
