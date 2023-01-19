@@ -9,21 +9,30 @@ import java.util.Map;
  */
 public class Parser
 {
-    public static void main(String[] args) {
-        // defining schema
+    private Schema schema;
 
-        // parsing schema
-            // validation
-
-        // parsing arguments
-
-    }
-    public Parser() {
-
+    public Parser(Schema schema) {
+        this.schema = schema;
     }
 
     // Throws runtimeexception when parser fails
     public Map<String, Object> parse(String arg) {
-        return new HashMap<>();
+        Map<String, Object> results = new HashMap<>();
+        for (Flag flag : this.schema.flags) {
+            if (arg.contains("-" + flag.flagName)) {
+                results.put(flag.flagName, true);
+            }
+        }
+        return results;
+    }
+
+    public static void main(String[] args) {
+        // defining schema
+
+        // parsing schema
+        // validation
+
+        // parsing arguments
+
     }
 }
