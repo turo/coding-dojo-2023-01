@@ -22,31 +22,39 @@ public class Parser {
         for (int i = 0; i < tokens.length; i++) {
             Flag maybeFlag = this.schema.getFlag(tokens[i]);
             if (maybeFlag != null) {
-                Map<String, Object> parsedFlag = parseFlag(tokens, i, maybeFlag);
+                String maybeParam = i+1 < tokens.length ? tokens[i+1] : null;
+                Map<String, Object> parsedFlag = parseFlag(maybeFlag, maybeParam);
                 results.putAll(parsedFlag);
             }
         }
         return results;
     }
 
-    private static Map<String, Object> parseFlag(String[] tokens, int i, Flag maybeFlag) {
-        if (maybeFlag.flagType == Boolean.class) {
-            if (i + 1 < tokens.length) {
-                if (tokens[i + 1].equals("true") ||
-                        tokens[i + 1].startsWith("-")) {
-                    return Map.of(maybeFlag.flagName, true);
-                } else if (tokens[i + 1].equals("false")) {
-                    return Map.of(maybeFlag.flagName, false);
+    // current token, maybe param (null or string)
+    private static Map<String, Object> parseFlag(Flag flag, String maybeParam) {
+        if (flag.flagType == Boolean.class) {
+            if (maybeParam != null) {
+                if (maybeParam.equals("true") ||
+                        maybeParam.startsWith("-")) {
+                    return Map.of(flag.flagName, true);
+                } else if (maybeParam.equals("false")) {
+                    return Map.of(flag.flagName, false);
                 } else {
                     throw new RuntimeException("Invalid arguments");
                 }
             } else {
-                return Map.of(maybeFlag.flagName, true);
+                return Map.of(flag.flagName, true);
             }
         } else {
             throw new RuntimeException("Not implemented");
         }
     }
+
+    // parse boolean
+
+    // parse string
+
+    // parse int
 
     public static void main(String[] args) {
         // defining schema
