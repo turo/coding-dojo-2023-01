@@ -1,7 +1,6 @@
 package org.example;
 
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,10 +20,10 @@ public class Parser {
         String[] tokens = arg.split(" ");
         Map<String, Object> results = new HashMap<>();
         for (int i = 0; i < tokens.length; i++) {
-            Flag maybeFlag = this.schema.getFlag(tokens[i]);
-            if (maybeFlag != null) {
-                String maybeParam = i+1 < tokens.length ? tokens[i+1] : null;
-                Map<String, Object> parsedFlag = parseFlag(maybeFlag, maybeParam);
+            var maybeFlag = this.schema.getFlag(tokens[i]);
+            if (maybeFlag.isPresent()) {
+                String maybeParam = i + 1 < tokens.length ? tokens[i + 1] : null;
+                Map<String, Object> parsedFlag = parseFlag(maybeFlag.get(), maybeParam);
                 results.putAll(parsedFlag);
             }
         }
@@ -33,24 +32,24 @@ public class Parser {
 
     // current token, maybe param (null or string)
     private static Map<String, Object> parseFlag(Flag flag, String maybeParam) {
-        if (flag.flagType == Boolean.class) {
+        if (flag.type == Boolean.class) {
             if (maybeParam != null) {
                 if (maybeParam.equals("true") ||
                         maybeParam.startsWith("-")) {
-                    return Map.of(flag.flagName, true);
+                    return Map.of(flag.name, true);
                 } else if (maybeParam.equals("false")) {
-                    return Map.of(flag.flagName, false);
+                    return Map.of(flag.name, false);
                 } else {
                     throw new RuntimeException("Invalid arguments");
                 }
             } else {
-                return Map.of(flag.flagName, true);
+                return Map.of(flag.name, true);
             }
-        } else if (flag.flagType == String.class) {
+        } else if (flag.type == String.class) {
             if (maybeParam != null) {
-                return Map.of(flag.flagName, maybeParam);
+                return Map.of(flag.name, maybeParam);
             } else {
-                return Map.of(flag.flagName, EMPTY_STRING);//
+                return Map.of(flag.name, EMPTY_STRING);//
             }
         } else {
             throw new RuntimeException("Not implemented");

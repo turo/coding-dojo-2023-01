@@ -2,6 +2,7 @@ package org.example;
 
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Schema {
     public Collection<Flag> flags;
@@ -11,12 +12,9 @@ public class Schema {
     }
 
 
-    public Flag getFlag(final String flagName) {
-        for (Flag flag : flags) {
-            if (Objects.equals("-" + flag.flagName, flagName)) {
-                return flag;
-            }
-        }
-        return null;
+    public Optional<Flag> getFlag(final String flagName) {
+        return flags.stream()
+                .filter(flag -> Objects.equals("-" + flag.name, flagName))
+                .findFirst();
     }
 }
