@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Map;
+
 public class StringFlag implements Flag {
 
     private String name;
@@ -16,5 +18,14 @@ public class StringFlag implements Flag {
     @Override
     public Class getType() {
         return String.class;
+    }
+
+    @Override
+    public Map<String, Object> parseFlag(String maybeParam) {
+        if (maybeParam != null) {
+            return Map.of(name, maybeParam);
+        } else {
+            return Map.of(name, EMPTY_STRING);
+        }
     }
 }

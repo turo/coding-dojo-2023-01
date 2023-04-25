@@ -33,24 +33,9 @@ public class Parser {
     // current token, maybe param (null or string)
     private static Map<String, Object> parseFlag(Flag flag, String maybeParam) {
         if (flag.getType() == Boolean.class) {
-            if (maybeParam != null) {
-                if (maybeParam.equals("true") ||
-                        maybeParam.startsWith("-")) {
-                    return Map.of(flag.getName(), true);
-                } else if (maybeParam.equals("false")) {
-                    return Map.of(flag.getName(), false);
-                } else {
-                    throw new RuntimeException("Invalid arguments");
-                }
-            } else {
-                return Map.of(flag.getName(), true);
-            }
+            return flag.parseFlag(maybeParam);
         } else if (flag.getType() == String.class) {
-            if (maybeParam != null) {
-                return Map.of(flag.getName(), maybeParam);
-            } else {
-                return Map.of(flag.getName(), EMPTY_STRING);//
-            }
+            return flag.parseFlag(maybeParam);
         } else {
             throw new RuntimeException("Not implemented");
         }

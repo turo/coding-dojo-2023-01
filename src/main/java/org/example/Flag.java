@@ -1,8 +1,15 @@
 package org.example;
 
+import java.util.Map;
+
 public interface Flag {
-    public String getName();
-    public Class getType();
+    String EMPTY_STRING = "";
+
+    String getName();
+    Class getType();
+
+    Map<String, Object> parseFlag(String maybeParam);
+
 }
 
 
