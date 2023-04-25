@@ -2,6 +2,7 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,21 @@ public class ParserTest {
                 new Schema(flags)
         );
         Map<String, Object> parsedResults = parser.parse(arg);
-        assertTrue((boolean)parsedResults.get("l"));
+        assertTrue((boolean) parsedResults.get("l"));
+    }
+
+    @Test
+    public void multiBooleanArguments_returnsMapWithValues() {
+        String arg = "-l true -i true";
+        Map<String, Object> expected = Map.of("l", true, "i", true);
+
+        List<Flag> flags = List.of(
+                new Flag("l", Boolean.class),
+                new Flag("i", Boolean.class));
+        Parser parser = new Parser(new Schema(flags));
+        Map<String, Object> parsedResults = parser.parse(arg);
+
+        assertEquals(expected, parsedResults);
     }
 
     @Test
@@ -44,7 +59,7 @@ public class ParserTest {
                 new Schema(flags)
         );
 
-        assertThrows(RuntimeException.class,() -> parser.parse(arg));
+        assertThrows(RuntimeException.class, () -> parser.parse(arg));
 
     }
 }
