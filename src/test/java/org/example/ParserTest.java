@@ -27,7 +27,7 @@ public class ParserTest {
     @Test
     public void booleanArgument_returnsMapWithTrueValue() {
         var arg = "-l";
-        var flags = List.of(new Flag("l", Boolean.class));
+        List<Flag> flags = List.of(new BooleanFlag("l"));
         Parser parser = new Parser(new Schema(flags));
         Map<String, Object> parsedResults = parser.parse(arg);
         assertTrue((boolean) parsedResults.get("l"));
@@ -36,7 +36,7 @@ public class ParserTest {
     @Test
     void stringArgument_returnsMapWithStringValue() {
         var arg = "-l abc";
-        var flags = List.of(new Flag("l", String.class));
+        List<Flag> flags = List.of(new StringFlag("l"));
         Parser parser = new Parser(new Schema(flags));
         Map<String, Object> parsedResults = parser.parse(arg);
         assertEquals("abc", parsedResults.get("l"));
@@ -48,8 +48,8 @@ public class ParserTest {
         Map<String, Object> expected = Map.of("l", true, "i", true);
 
         List<Flag> flags = List.of(
-                new Flag("l", Boolean.class),
-                new Flag("i", Boolean.class));
+                new BooleanFlag("l"),
+                new BooleanFlag("i"));
         Parser parser = new Parser(new Schema(flags));
         Map<String, Object> parsedResults = parser.parse(arg);
 
@@ -60,7 +60,7 @@ public class ParserTest {
     public void booleanArgument_withStringValue_throwsException() {
         String arg = "-l abc";
 
-        List<Flag> flags = List.of(new Flag("l", Boolean.class));
+        List<Flag> flags = List.of(new BooleanFlag("l"));
         Parser parser = new Parser(new Schema(flags));
 
         assertThrows(RuntimeException.class, () -> parser.parse(arg));
