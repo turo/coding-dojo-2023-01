@@ -26,14 +26,20 @@ public class ParserTest {
 
     @Test
     public void booleanArgument_returnsMapWithTrueValue() {
-        String arg = "-l";
-        List<Flag> flags = new ArrayList<>();
-        flags.add(new Flag("l", Boolean.class));
-        Parser parser = new Parser(
-                new Schema(flags)
-        );
+        var arg = "-l";
+        var flags = List.of(new Flag("l", Boolean.class));
+        Parser parser = new Parser(new Schema(flags));
         Map<String, Object> parsedResults = parser.parse(arg);
         assertTrue((boolean) parsedResults.get("l"));
+    }
+
+    @Test
+    void stringArgument_returnsMapWithStringValue() {
+        var arg = "-l abc";
+        var flags = List.of(new Flag("l", String.class));
+        Parser parser = new Parser(new Schema(flags));
+        Map<String, Object> parsedResults = parser.parse(arg);
+        assertEquals("abc", parsedResults.get("l"));
     }
 
     @Test
@@ -53,11 +59,9 @@ public class ParserTest {
     @Test
     public void booleanArgument_withStringValue_throwsException() {
         String arg = "-l abc";
-        List<Flag> flags = new ArrayList<>();
-        flags.add(new Flag("l", Boolean.class));
-        Parser parser = new Parser(
-                new Schema(flags)
-        );
+
+        List<Flag> flags = List.of(new Flag("l", Boolean.class));
+        Parser parser = new Parser(new Schema(flags));
 
         assertThrows(RuntimeException.class, () -> parser.parse(arg));
 

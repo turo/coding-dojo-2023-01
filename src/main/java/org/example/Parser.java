@@ -9,6 +9,7 @@ import java.util.Map;
  * Hello world!
  */
 public class Parser {
+    public static final String EMPTY_STRING = "";
     private Schema schema;
 
     public Parser(Schema schema) {
@@ -44,6 +45,12 @@ public class Parser {
                 }
             } else {
                 return Map.of(flag.flagName, true);
+            }
+        } else if (flag.flagType == String.class) {
+            if (maybeParam != null) {
+                return Map.of(flag.flagName, maybeParam);
+            } else {
+                return Map.of(flag.flagName, EMPTY_STRING);//
             }
         } else {
             throw new RuntimeException("Not implemented");
