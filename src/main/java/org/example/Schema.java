@@ -14,7 +14,7 @@ public class Schema {
 
     public Optional<Flag> getFlag(final String flagName) {
         return flags.stream()
-                .filter(flag -> Objects.equals("-" + flag.getName(), flagName))
+                .filter(flag -> Objects.equals("-" + flag.name(), flagName))
                 .findFirst();
     }
 }

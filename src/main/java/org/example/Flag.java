@@ -5,11 +5,11 @@ import java.util.Map;
 public interface Flag {
     String EMPTY_STRING = "";
 
-    String getName();
-    Class getType();
+    String name();
 
     Map<String, Object> parseFlag(String maybeParam);
 
 }
 
+// TODO: Add IntegerFlag
 

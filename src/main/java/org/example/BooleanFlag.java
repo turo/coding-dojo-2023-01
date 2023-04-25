@@ -2,23 +2,7 @@ package org.example;
 
 import java.util.Map;
 
-public class BooleanFlag implements Flag {
-
-    private String name;
-
-    public BooleanFlag(final String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public Class getType() {
-        return Boolean.class;
-    }
+public record BooleanFlag(String name) implements Flag {
 
     @Override
     public Map<String, Object> parseFlag(String maybeParam) {
