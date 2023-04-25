@@ -1,5 +1,13 @@
 # Coding Dojo 2023 01
 
+# TODO
+- Add IntegerFlag
+- test case for negative numbers
+- test case for strings that start with dash
+  - ex. `Wget -O - example.com` O is output, '-' is stdout
+- test case for default values
+- (ambitious) support lists as values for flags
+
 ## Introduction
 
 ### Main exercise
